@@ -3,16 +3,24 @@ import os
 from datetime import datetime
 import pytz
 from datetime import timedelta
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 
-# Function to send an email
-def send_email(api_key, fromaddr, toaddrs, message):
+# Function to send an email with a subject
+def send_email(api_key, fromaddr, toaddrs, subject, message):
+    msg = MIMEMultipart()
+    msg["From"] = fromaddr
+    msg["To"] = toaddrs
+    msg["Subject"] = subject
+    msg.attach(MIMEText(message, "plain"))
+
     with smtplib.SMTP("smtp.gmail.com", 587) as smtpserver:
         smtpserver.ehlo()
         smtpserver.starttls()
         smtpserver.ehlo()
         smtpserver.login(fromaddr, api_key)
-        smtpserver.sendmail(fromaddr, toaddrs, message)
+        smtpserver.sendmail(fromaddr, toaddrs, msg.as_string())
 
 
 # Define variables
@@ -21,8 +29,8 @@ fromaddr = "NyleWagjiani@Gmail.com"
 toaddrs = "NyleWagjiani@Gmail.com"
 
 # Set custom start time (12:45:12 AM London Time)
-start_time_str = "30/12/2024 12:53:30"  # Set start time in dd/mm/yyyy hh:mm:ss format
-start_time = datetime.strptime(start_time_str, "%d/%m/%Y %H:%M:%S")
+start_time_str = "2025-01-01 14:51:40"  # Change this to your desired start time
+start_time = datetime.strptime(start_time_str, "%Y-%m-%d %H:%M:%S")
 
 # Define the London timezone
 london_tz = pytz.timezone("Europe/London")
@@ -44,17 +52,23 @@ hours_elapsed = remaining_seconds // 3600
 minutes_elapsed = (remaining_seconds % 3600) // 60
 seconds_elapsed = remaining_seconds % 60
 
-# Format the start and current times in dd/mm/yyyy hh:mm:ss format
-start_time_str = start_time.strftime("%d/%m/%Y %H:%M:%S")  # e.g., 01/01/2025 14:51:40
+# Format the start and current times in a readable way
+start_time_str = start_time.strftime(
+    "%d %B %Y, %I:%M:%S %p"
+)  # e.g., 02 January 2025, 12:45:12 AM
 current_time_str = current_time.strftime(
-    "%d/%m/%Y %H:%M:%S"
-)  # e.g., 02/01/2025 22:51:55
+    "%d %B %Y, %I:%M:%S %p"
+)  # e.g., 02 January 2025, 12:45:12 AM
 
-# Send the email with the number of days elapsed and the full date information
+# Email subject
+subject = "Stopwatch Reminder"
+
+# Email message
 message = (
     f"The stopwatch started on {start_time_str}.\n"
     f"The current time is {current_time_str}.\n\n"
     f"The stopwatch has been running for {days_elapsed} days, {hours_elapsed} hours, {minutes_elapsed} minutes, and {seconds_elapsed} seconds!"
 )
 
-send_email(api_key, fromaddr, toaddrs, message)
+# Send the email with the subject and message
+send_email(api_key, fromaddr, toaddrs, subject, message)
