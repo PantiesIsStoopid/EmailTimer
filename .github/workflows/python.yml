@@ -5,6 +5,9 @@ on:
     branches:
       - main
   workflow_dispatch:  # Enables manual trigger from GitHub Actions UI
+  schedule:
+    # Runs every day at 12:00 PM London time (UTC+0 or UTC+1 depending on daylight saving)
+    - cron: '0 12 * * *'
 
 jobs:
   run-python-script:
