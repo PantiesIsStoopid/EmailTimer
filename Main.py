@@ -1,14 +1,12 @@
 import smtplib
 import os
 
-print("hello")
-
 api_key = os.getenv("API_KEY")
 # Use the api_key in your code
 
 toaddrs = "NyleWagjiani@Gmail.com"
 fromaddr = "NyleWagjiani@Gmail.com"
-message = "hello"
+message = "hello from gh action"
 
 with smtplib.SMTP("smtp.gmail.com", 587) as smtpserver:
     smtpserver.ehlo()
