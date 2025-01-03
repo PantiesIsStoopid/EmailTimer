@@ -29,7 +29,7 @@ fromaddr = "NyleWagjiani@Gmail.com"
 toaddrs = "NyleWagjiani@Gmail.com"
 
 # Set custom start time (12:45:12 AM London Time)
-start_time_str = "2025-01-01 14:51:40"  # Change this to your desired start time
+start_time_str = "2025-01-03 01:31:50"  # Change this to your desired start time
 start_time = datetime.strptime(start_time_str, "%Y-%m-%d %H:%M:%S")
 
 # Define the London timezone
