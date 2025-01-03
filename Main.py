@@ -61,12 +61,10 @@ current_time_str = current_time.strftime(
 )  # e.g., 02 January 2025, 12:45:12 AM
 
 # Email subject
-subject = "Stopwatch Reminder"
+subject = (f"Stopwatch {days_elapsed}")
 
 # Email message
 message = (
-    f"The stopwatch started on {start_time_str}.\n"
-    f"The current time is {current_time_str}.\n\n"
     f"The stopwatch has been running for {days_elapsed} days, {hours_elapsed} hours, {minutes_elapsed} minutes, and {seconds_elapsed} seconds!"
 )
 
